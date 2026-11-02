@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sample Web App</title>
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #10b981;
+      --border-color: #334155;
+    }
+
+    [data-theme="light"] {
+      --bg-color: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #059669;
+      --border-color: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      background: rgba(59, 130, 246, 0.15);
+      color: var(--primary);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .theme-toggle:hover {
+      color: var(--text-main);
+      border-color: var(--primary);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .counter-card {
+      background: rgba(148, 163, 184, 0.06);
+      border: 1px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .count-display {
+      font-size: 2.75rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    button.btn {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 0.6rem 1.1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      color: var(--text-main);
+      border-color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="badge">Live Demo</span>
+      <button class="theme-toggle" id="themeToggle">🌓 Toggle Theme</button>
+    </div>
+
+    <h1>Hello, World! 🚀</h1>
+    <p>This is a complete sample HTML5 page featuring responsive design, CSS variables, dark/light mode toggle, and interactive JavaScript.</p>
+
+    <div class="counter-card">
+      <div class="count-display" id="count">0</div>
+      <div class="button-group">
+        <button class="btn btn-secondary" id="decrementBtn">- 1</button>
+        <button class="btn btn-secondary" id="resetBtn">Reset</button>
+        <button class="btn btn-primary" id="incrementBtn">+ 1</button>
+      </div>
+    </div>
+
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      <span id="statusText">Ready &amp; running</span>
+    </div>
+  </div>
+
+  <script>
+    // State management
+    let count = 0;
+    const countDisplay = document.getElementById('count');
+    const incrementBtn = document.getElementById('incrementBtn');
+    const decrementBtn = document.getElementById('decrementBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const themeToggle = document.getElementById('themeToggle');
+    const statusText = document.getElementById('statusText');
+
+    // Counter handlers
+    function updateCounter(value) {
+      count = value;
+      countDisplay.textContent = count;
+      statusText.textContent = `Last action: Count set to ${count}`;
+    }
+
+    incrementBtn.addEventListener('click', () => updateCounter(count + 1));
+    decrementBtn.addEventListener('click', () => updateCounter(count - 1));
+    resetBtn.addEventListener('click', () => updateCounter(0));
+
+    // Theme toggle handler
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      statusText.textContent = `Switched theme to ${newTheme} mode`;
+    });
+  </script>
+</body>
+</html>
+
